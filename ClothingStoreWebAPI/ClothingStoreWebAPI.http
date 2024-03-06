@@ -1,0 +1,6 @@
+@ClothingStoreWebAPI_HostAddress = http://localhost:5206
+
+GET {{ClothingStoreWebAPI_HostAddress}}/
+Accept: application/json
+
+###
