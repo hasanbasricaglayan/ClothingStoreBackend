@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClothingStoreWebAPI.Migrations
 {
     [DbContext(typeof(ClothingStoreContext))]
-    [Migration("20240306082412_DataSeeding")]
-    partial class DataSeeding
+    [Migration("20240306092029_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
