@@ -1,6 +1,7 @@
-// New instance of the WebApplicationBuilder class with preconfigured defaults
 using ClothingStoreWebAPI.Data;
+using ClothingStoreWebAPI.Services;
 
+// New instance of the WebApplicationBuilder class with preconfigured defaults
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Collection of services for the application to compose
@@ -16,6 +17,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ClothingStoreContext>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 // Building of the WebApplication
 WebApplication app = builder.Build();
