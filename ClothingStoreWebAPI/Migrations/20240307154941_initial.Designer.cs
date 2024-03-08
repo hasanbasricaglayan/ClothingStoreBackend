@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClothingStoreWebAPI.Migrations
 {
     [DbContext(typeof(ClothingStoreContext))]
-    [Migration("20240306092029_initial")]
+    [Migration("20240307154941_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -272,6 +272,71 @@ namespace ClothingStoreWebAPI.Migrations
                             Price = 9.9900000000000002,
                             QuantityInStock = 700,
                             Size = "10 ans"
+                        },
+                        new
+                        {
+                            ProductId = 5,
+                            Brand = "Tezenis",
+                            CategoryId = 3,
+                            Color = "Bleu ciel/Gris",
+                            Description = "60% coton, 40% polyester",
+                            ImageURL = "https://img01.ztat.net/article/spp-media-p1/e9f7714483f24ce6bf4e7ea017e64fc2/16c300d2b8434a0cbf89e5b6dbc69451.jpg?imwidth=156&filter=packshot",
+                            Name = "Pyjama Cartoon",
+                            Price = 25.629999999999999,
+                            QuantityInStock = 263,
+                            Size = "S"
+                        },
+                        new
+                        {
+                            ProductId = 6,
+                            Brand = "Pinko",
+                            CategoryId = 2,
+                            Color = "Vert",
+                            Description = "Robe longue inspiration Asiatique",
+                            ImageURL = "https://img01.ztat.net/article/spp-media-p1/f64de54bbdcc4bb1a4e606378a5fcaae/b62ca0fc6cad4713974bf01fb89cd45c.jpg?imwidth=156&filter=packshot",
+                            Name = "SUSHI ABITO - Robe longue",
+                            Price = 394.94999999999999,
+                            QuantityInStock = 6,
+                            Size = "M"
+                        },
+                        new
+                        {
+                            ProductId = 7,
+                            Brand = "ONLY",
+                            CategoryId = 2,
+                            Color = "Vert",
+                            Description = "Composition: 60% coton, 40% polyester\r\nMatière: Sweat",
+                            ImageURL = "https://img01.ztat.net/article/spp-media-p1/3bea6fcc60564c99a2f46a38c97432df/bb8d59aa88f54942ac1ec10c72cc276a.jpg?imwidth=156&filter=packshot",
+                            Name = "ONLBROOKE O NECK FLOWER - Sweatshirt",
+                            Price = 32.990000000000002,
+                            QuantityInStock = 48,
+                            Size = "S"
+                        },
+                        new
+                        {
+                            ProductId = 8,
+                            Brand = "LEVI",
+                            CategoryId = 1,
+                            Color = "Noir",
+                            Description = "Composition: 98% coton, 2% élasthanne",
+                            ImageURL = "https://img01.ztat.net/article/spp-media-p1/04a16d77bfc94d65aba8294306692a3b/302bec109d6842bf9de5c16039692710.jpg?imwidth=156",
+                            Name = "Pantalon cargo",
+                            Price = 48.990000000000002,
+                            QuantityInStock = 855,
+                            Size = "L"
+                        },
+                        new
+                        {
+                            ProductId = 9,
+                            Brand = "Jack & Jones",
+                            CategoryId = 1,
+                            Color = "Blanc",
+                            Description = "Composition: 100% coton",
+                            ImageURL = "https://img01.ztat.net/article/spp-media-p1/30a2e37ae97d4a499d9178d558151f79/4031697abb324a7ebc982fc69b227842.jpg?imwidth=156&filter=packshot",
+                            Name = "JORCALIFLO TEE CREW NECK - T-shirt imprimé",
+                            Price = 95.349999999999994,
+                            QuantityInStock = 632,
+                            Size = "S"
                         });
                 });
 

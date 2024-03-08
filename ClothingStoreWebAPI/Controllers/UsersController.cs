@@ -19,7 +19,7 @@ namespace ClothingStoreWebAPI.Controllers
 		[HttpGet]
 		public ActionResult<IEnumerable<User>> GetAllUser()
 		{
-			var users = _context.Users.Where(a => a.IsAdmin != true).ToList();
+			var users = _context.Users.ToList();
 			return Ok(users);
 		}
 
