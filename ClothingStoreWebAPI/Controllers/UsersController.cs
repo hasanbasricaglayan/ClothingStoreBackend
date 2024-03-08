@@ -1,6 +1,5 @@
 using ClothingStoreWebAPI.Data;
 using ClothingStoreWebAPI.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClothingStoreWebAPI.Controllers
@@ -19,13 +18,13 @@ namespace ClothingStoreWebAPI.Controllers
 		[HttpGet]
 		public ActionResult<IEnumerable<User>> GetAllUser()
 		{
-			var users = _context.Users.Where(a => a.IsAdmin != true).ToList();
+			var users = _context.Users.ToList();
 			return Ok(users);
 		}
 
-
 		[HttpGet("{id}")]
-		public ActionResult<User> GetUserById(int id) {
+		public ActionResult<User> GetUserById(int id)
+		{
 
 			var user = _context.Users.FirstOrDefault(a => a.UserId == id);
 			if (user == null)
@@ -36,7 +35,8 @@ namespace ClothingStoreWebAPI.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult<User> PostUser(User user) {
+		public ActionResult<User> PostUser(User user)
+		{
 
 			var newUser = new User()
 			{

@@ -1,5 +1,6 @@
 using ClothingStoreWebAPI.Data;
 using ClothingStoreWebAPI.Services;
+using Microsoft.IdentityModel.Tokens;
 
 // New instance of the WebApplicationBuilder class with preconfigured defaults
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,20 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ClothingStoreContext>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
+builder.Services.AddAuthentication("Bearer").AddJwtBearer(options =>
+{
+	options.TokenValidationParameters = new()
+	{
+		ValidateIssuer = true,
+		ValidateAudience = true,
+		ValidateIssuerSigningKey = true,
+		ValidIssuer = builder.Configuration["Authentification:Issuer"],
+		ValidAudience = builder.Configuration["Authentification:Audience"],
+		IssuerSigningKey = new SymmetricSecurityKey(Convert.FromBase64String(builder.Configuration["Authentification:SecretForKey"]!))
+
+	};
+});
+
 // Building of the WebApplication
 WebApplication app = builder.Build();
 
@@ -30,6 +45,7 @@ if (app.Environment.IsDevelopment())
 }
 app.UseHttpsRedirection();
 app.UseCors(CorsPolicy);
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
