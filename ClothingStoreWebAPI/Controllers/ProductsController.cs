@@ -1,9 +1,8 @@
-using ClothingStoreWebAPI.Data;
 using ClothingStoreWebAPI.Entities;
-using ClothingStoreWebAPI.Services;
-using Microsoft.AspNetCore.Http;
+using ClothingStoreWebAPI.Mappers.ProductMappers;
+using ClothingStoreWebAPI.Models;
+using ClothingStoreWebAPI.Services.ProductRepositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace ClothingStoreWebAPI.Controllers
 {
@@ -11,84 +10,93 @@ namespace ClothingStoreWebAPI.Controllers
 	[Route("api/[controller]")]
 	public class ProductsController : ControllerBase
 	{
-		private ClothingStoreContext _context;
-		public ProductsController(ClothingStoreContext context)
+		private IProductRepository _productRepository;
+		private IProductMapper _productMapper;
+
+		public ProductsController(IProductRepository productRepository, IProductMapper productMapper)
 		{
-			_context = context;
+			_productRepository = productRepository;
+			_productMapper = productMapper;
 		}
 
 		[HttpGet]
-		public ActionResult<IEnumerable<Product>> GetAllProduct()
+		public async Task<ActionResult<IEnumerable<ProductDTO>>> GetAllProductsAsync()
 		{
-			var product = _context.Products;
-			if (product == null)
-			{
-				return NotFound();
-			}
-			return Ok(product);
+			IEnumerable<Product> products = await _productRepository.GetAllProductsAsync();
+
+			List<ProductDTO> productsDTO = _productMapper.ProductsToDTO(products);
+
+			return Ok(productsDTO);
 		}
 
-		[HttpGet("{id}")]
-		public ActionResult<Product> GetProductById(int id) {
-
-			var product = _context.Products.FirstOrDefault(a => a.ProductId == id );
+		[HttpGet("{productId}")]
+		public async Task<ActionResult<ProductDTO>> GetProductByIdAsync(int productId)
+		{
+			Product? product = await _productRepository.GetProductByIdAsync(productId);
 			if (product == null)
 			{
 				return NotFound();
 			}
-			return Ok(product);
+
+			ProductDTO productDTO = _productMapper.ProductToDTO(product);
+
+			return Ok(productDTO);
 		}
 
-		[HttpGet("name = {name}")]
-		public ActionResult<Product> GetProductByName(string name) {
-			var product = _context.Products.FirstOrDefault(a => a.Name == name);
+		[HttpGet("name={name}")]
+		public async Task<ActionResult<ProductDTO>> GetProductByNameAsync(string name)
+		{
+			Product? product = await _productRepository.GetProductByNameAsync(name);
 			if (product == null)
 			{
 				return NotFound();
 			}
-			return Ok(product);
+
+			ProductDTO productDTO = _productMapper.ProductToDTO(product);
+
+			return Ok(productDTO);
 		}
 
 		[HttpPost]
-		public ActionResult<Product> AddProduct(Product product) {
+		public async Task<ActionResult<Product>> AddProductAsync(ProductDTO productDTO)
+		{
+			Product product = _productMapper.ProductFromDTO(productDTO);
 
-			var new_product = new Product()
-			{
-				Name = product.Name,
-				Color = product.Color,
-				Brand = product.Brand,
-				Description = product.Description,
-				CategoryId = product.CategoryId,
-				ImageURL = product.ImageURL,
-				Price = product.Price,
-				QuantityInStock = product.QuantityInStock,
-				Size = product.Size,
-			};
-			_context.Products.Add(new_product);
-			_context.SaveChanges();
+			await _productRepository.AddProductAsync(product);
+			await _productRepository.SaveChangesAsync();
+
 			return Ok(product);
 		}
 
-		[HttpPut("{id}")]
-		public ActionResult<Product> PutProduct(Product product,int id) {
-
-			var productToEdit = _context.Products.FirstOrDefault(a => a.ProductId == id);
-			if (productToEdit == null)
+		[HttpPut("{productId}")]
+		public async Task<ActionResult<Product>> EditProductAsync(int productId, ProductDTO productDTO)
+		{
+			Product? product = await _productRepository.GetProductByIdAsync(productId);
+			if (product == null)
 			{
 				return NotFound();
 			}
-			productToEdit.Name = product.Name;
-			productToEdit.Color = product.Color;
-			productToEdit.Brand = product.Brand;
-			productToEdit.Description = product.Description;
-			productToEdit.CategoryId = product.CategoryId;
-			productToEdit.ImageURL = product.ImageURL;
-			productToEdit.Price = product.Price;
-			productToEdit.QuantityInStock = product.QuantityInStock;
-			productToEdit.Size = product.Size;
 
-			_context.SaveChanges();
+			_productMapper.UpdateProduct(product, productDTO);
+
+			await _productRepository.SaveChangesAsync();
+
 			return Ok(product);
+		}
+
+		[HttpDelete("{productId}")]
+		public async Task<ActionResult> DeleteProductAsync(int productId)
+		{
+			Product? product = await _productRepository.GetProductByIdAsync(productId);
+			if (product == null)
+			{
+				return NotFound();
+			}
+
+			_productRepository.DeleteProduct(product);
+			await _productRepository.SaveChangesAsync();
+
+			return Ok();
 		}
 	}
 }

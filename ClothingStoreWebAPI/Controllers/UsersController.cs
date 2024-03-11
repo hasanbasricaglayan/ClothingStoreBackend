@@ -1,6 +1,7 @@
-using ClothingStoreWebAPI.Data;
 using ClothingStoreWebAPI.Entities;
-using Microsoft.AspNetCore.Http;
+using ClothingStoreWebAPI.Mappers.UserMappers;
+using ClothingStoreWebAPI.Models;
+using ClothingStoreWebAPI.Services.UserRepositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClothingStoreWebAPI.Controllers
@@ -9,54 +10,83 @@ namespace ClothingStoreWebAPI.Controllers
 	[Route("api/[controller]")]
 	public class UsersController : ControllerBase
 	{
-		private ClothingStoreContext _context;
-		public UsersController(ClothingStoreContext context)
+		private IUserRepository _userRepository;
+		private IUserMapper _userMapper;
+
+		public UsersController(IUserRepository userRepository, IUserMapper userMapper)
 		{
-			_context = context;
+			_userRepository = userRepository;
+			_userMapper = userMapper;
 		}
 
-
+		// Admin
 		[HttpGet]
-		public ActionResult<IEnumerable<User>> GetAllUser()
+		public async Task<ActionResult<IEnumerable<UserDTO>>> GetAllUsersWithOrdersAndProductsAsync()
 		{
-			var users = _context.Users.ToList();
-			return Ok(users);
+			IEnumerable<User> users = await _userRepository.GetAllUsersWithOrdersAndProductsAsync();
+
+			List<UserDTO> usersDTO = _userMapper.UsersToDTO(users);
+
+			return Ok(usersDTO);
 		}
 
-
-		[HttpGet("{id}")]
-		public ActionResult<User> GetUserById(int id) {
-
-			var user = _context.Users.FirstOrDefault(a => a.UserId == id);
+		[HttpGet("{userId}")]
+		public async Task<ActionResult<UserDTO>> GetUserByIdWithOrdersAndProductsAsync(int userId)
+		{
+			User? user = await _userRepository.GetUserByIdWithOrdersAndProductsAsync(userId);
 			if (user == null)
 			{
 				return NotFound();
 			}
+
+			UserDTO userDTO = _userMapper.UserToDTO(user);
+
+			return Ok(userDTO);
+		}
+
+		// New user registration
+		[HttpPost]
+		public async Task<ActionResult<User>> AddUserAsync(UserDTO userDTO)
+		{
+			User user = _userMapper.UserFromDTO(userDTO);
+
+			await _userRepository.AddUserAsync(user);
+			await _userRepository.SaveChangesAsync();
+
 			return Ok(user);
 		}
 
-		[HttpPost]
-		public ActionResult<User> PostUser(User user) {
-
-			var newUser = new User()
+		// Edit user's data
+		[HttpPut("{userId}")]
+		public async Task<ActionResult<User>> EditUserAsync(int userId, UserDTO userDTO)
+		{
+			User? user = await _userRepository.GetUserByIdAsync(userId);
+			if (user == null)
 			{
-				FirstName = user.FirstName,
-				LastName = user.LastName,
-				Email = user.Email,
-				Password = user.Password,
-				PhoneNumber = user.PhoneNumber,
-				BillingAdress = user.BillingAdress,
-				DateOfBirth = user.DateOfBirth,
-				DeliveryAdress = user.DeliveryAdress,
-				Orders = user.Orders,
-				IsAdmin = false,
-			};
+				return NotFound();
+			}
 
-			_context.Users.Add(newUser);
-			_context.SaveChanges();
-			return Ok(newUser);
+			_userMapper.UpdateUser(user, userDTO);
 
+			await _userRepository.SaveChangesAsync();
+
+			return Ok(user);
 		}
 
+		// Delete user's account
+		[HttpDelete("{userId}")]
+		public async Task<ActionResult> DeleteUserAsync(int userId)
+		{
+			User? user = await _userRepository.GetUserByIdAsync(userId);
+			if (user == null)
+			{
+				return NotFound();
+			}
+
+			_userRepository.DeleteUser(user);
+			await _userRepository.SaveChangesAsync();
+
+			return Ok();
+		}
 	}
 }

@@ -1,13 +1,8 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace ClothingStoreWebAPI.Entities
+namespace ClothingStoreWebAPI.Models
 {
-	public class User
+	public class UserDTO
 	{
-		[Key]
-		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public int UserId { get; set; }
+		public int? UserId { get; set; }
 
 		public string FirstName { get; set; } = string.Empty;
 		public string LastName { get; set; } = string.Empty;
@@ -19,6 +14,6 @@ namespace ClothingStoreWebAPI.Entities
 		public string DeliveryAdress { get; set; } = string.Empty;
 		public bool IsAdmin { get; set; } = false;
 
-		public List<Order> Orders { get; set; } = [];
+		public List<OrderDTO> Orders { get; set; } = [];
 	}
 }

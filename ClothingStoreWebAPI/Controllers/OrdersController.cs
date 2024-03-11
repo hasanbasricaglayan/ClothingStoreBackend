@@ -1,44 +1,55 @@
 using ClothingStoreWebAPI.Entities;
-using ClothingStoreWebAPI.Services;
+using ClothingStoreWebAPI.Mappers.OrderMappers;
+using ClothingStoreWebAPI.Models;
+using ClothingStoreWebAPI.Services.OrderRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClothingStoreWebAPI.Controllers
 {
 	[ApiController]
+	//[Authorize]
 	[Route("api/[controller]")]
 	public class OrdersController : ControllerBase
 	{
 		private IOrderRepository _orderRepository;
+		private IOrderMapper _orderMapper;
 
-		public OrdersController(IOrderRepository orderRepository)
+		public OrdersController(IOrderRepository orderRepository, IOrderMapper orderMapper)
 		{
 			_orderRepository = orderRepository;
+			_orderMapper = orderMapper;
 		}
 
 		[HttpGet]
-		public async Task<ActionResult<IEnumerable<Order>>> GetOrdersWithProducts()
+		public async Task<ActionResult<IEnumerable<OrderDTO>>> GetAllOrdersWithProductsAsync()
 		{
-			IEnumerable<Order> orders = await _orderRepository.GetOrdersWithProductsAsync();
+			IEnumerable<Order> orders = await _orderRepository.GetAllOrdersWithProductsAsync();
 
-			return Ok(orders);
+			List<OrderDTO> ordersDTO = _orderMapper.OrdersToDTO(orders);
+
+			return Ok(ordersDTO);
 		}
 
 		[HttpGet("{orderId}")]
-		public async Task<ActionResult<Order>> GetOrderWithProducts(int orderId)
+		public async Task<ActionResult<OrderDTO>> GetOrderByIdWithProductsAsync(int orderId)
 		{
-			Order? order = await _orderRepository.GetOrderWithProductsAsync(orderId);
-
+			Order? order = await _orderRepository.GetOrderByIdWithProductsAsync(orderId);
 			if (order == null)
 			{
 				return NotFound();
 			}
 
-			return Ok(order);
+			OrderDTO orderDTO = _orderMapper.OrderToDTO(order);
+
+			return Ok(orderDTO);
 		}
 
 		[HttpPost]
-		public async Task<ActionResult<Order>> AddOrder(Order order)
+		public async Task<ActionResult<Order>> AddOrderAsync(OrderDTO orderDTO)
 		{
+			Order order = _orderMapper.OrderFromDTO(orderDTO);
+
 			await _orderRepository.AddOrderAsync(order);
 			await _orderRepository.SaveChangesAsync();
 
@@ -46,25 +57,25 @@ namespace ClothingStoreWebAPI.Controllers
 		}
 
 		[HttpPut("{orderId}")]
-		public async Task<ActionResult<Order>> EditOrder(int orderId, Order order)
+		public async Task<ActionResult<Order>> EditOrderAsync(int orderId, OrderDTO orderDTO)
 		{
-			Order? orderToEdit = await _orderRepository.GetOrderAsync(orderId);
-			if (orderToEdit == null)
+			Order? order = await _orderRepository.GetOrderByIdAsync(orderId);
+			if (order == null)
 			{
 				return NotFound();
 			}
 
-			orderToEdit.Status = order.Status;
+			_orderMapper.UpdateOrder(order, orderDTO);
 
 			await _orderRepository.SaveChangesAsync();
 
-			return Ok(orderToEdit);
+			return Ok(order);
 		}
 
 		[HttpDelete("{orderId}")]
-		public async Task<ActionResult> DeleteOrder(int orderId)
+		public async Task<ActionResult> DeleteOrderAsync(int orderId)
 		{
-			Order? order = await _orderRepository.GetOrderAsync(orderId);
+			Order? order = await _orderRepository.GetOrderByIdAsync(orderId);
 			if (order == null)
 			{
 				return NotFound();
