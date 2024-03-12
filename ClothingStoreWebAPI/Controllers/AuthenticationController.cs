@@ -1,7 +1,11 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Threading.Tasks.Dataflow;
 using ClothingStoreWebAPI.Data;
 using ClothingStoreWebAPI.Entities;
+using ClothingStoreWebAPI.Mappers.UserMappers;
+using ClothingStoreWebAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -14,6 +18,7 @@ namespace ClothingStoreWebAPI.Controllers
 	{
 		private IConfiguration _configuration;
 		private ClothingStoreContext _context;
+		private IUserMapper _userMapper;
 
 		public AuthenticationController(IConfiguration configuration, ClothingStoreContext context)
 		{
@@ -45,6 +50,7 @@ namespace ClothingStoreWebAPI.Controllers
 				new Claim("sub", user.UserId.ToString()),
 				new Claim("firstname", user.FirstName),
 				new Claim("lastname", user.LastName),
+				new Claim("emailAddress",user.Email),
 				new Claim("admin", user.IsAdmin.ToString())
 			];
 
@@ -70,6 +76,18 @@ namespace ClothingStoreWebAPI.Controllers
 			}
 
 			return Ok(new { token = GenerateJwtToken(user) });
+		}
+		[Authorize]
+		[HttpGet("auth")]
+		public ActionResult<User> GetUserByToken()
+		{
+			//var userEmail =  token.Claims.FirstOrDefault(c => c.Type == "email")?.Value;
+			var userEmail = User.Claims.FirstOrDefault(u => u.Type == "emailAddress")?.Value;
+
+			User? user = _context.Users.FirstOrDefault(u => u.Email == userEmail);
+			Console.WriteLine(userEmail);
+			//UserDTO userDTO = _userMapper.UserToDTO(user);
+			return Ok(user);
 		}
 	}
 }

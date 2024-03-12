@@ -12,8 +12,13 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClothingStoreWebAPI.Migrations
 {
     [DbContext(typeof(ClothingStoreContext))]
+<<<<<<<< HEAD:ClothingStoreWebAPI/Migrations/20240311221711_Update.Designer.cs
     [Migration("20240311221711_Update")]
     partial class Update
+========
+    [Migration("20240312082341_initial")]
+    partial class initial
+>>>>>>>> master:ClothingStoreWebAPI/Migrations/20240312082341_initial.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
