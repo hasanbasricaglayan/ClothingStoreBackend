@@ -73,7 +73,7 @@ namespace ClothingStoreWebAPI.Mappers.OrderMappers
 		public void UpdateOrder(Order order, OrderDTO orderDTO)
 		{
 			order.OrderId = order.OrderId;
-			order.UserId = orderDTO.UserId;
+			order.UserId = order.UserId;
 			order.OrderDate = orderDTO.OrderDate;
 			order.Status = orderDTO.Status;
 		}

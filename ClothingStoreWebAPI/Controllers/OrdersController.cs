@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ClothingStoreWebAPI.Controllers
 {
 	[ApiController]
-	[Authorize]
+	//[Authorize]
 	[Route("api/[controller]")]
 	public class OrdersController : ControllerBase
 	{

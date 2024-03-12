@@ -19,8 +19,8 @@ namespace ClothingStoreWebAPI.Data
 					Email = "mouhammad.nour@gmail.com",
 					Password = "MouhammadN_1",
 					DateOfBirth = new DateOnly(1999, 1, 1),
-					BillingAdress = "Grenoble, France",
-					DeliveryAdress = "Grenoble, France",
+					BillingAddress = "Grenoble, France",
+					DeliveryAddress = "Grenoble, France",
 					IsAdmin = true
 				},
 				new User
@@ -32,8 +32,8 @@ namespace ClothingStoreWebAPI.Data
 					Email = "hasanbasri.caglayan@gmail.com",
 					Password = "HasanBasriC_2",
 					DateOfBirth = new DateOnly(2000, 1, 1),
-					BillingAdress = "Clermont-Ferrand, France",
-					DeliveryAdress = "Clermont-Ferrand, France",
+					BillingAddress = "Clermont-Ferrand, France",
+					DeliveryAddress = "Clermont-Ferrand, France",
 					IsAdmin = true
 				},
 				new User
@@ -45,8 +45,8 @@ namespace ClothingStoreWebAPI.Data
 					Email = "victor.hugo@gmail.com",
 					Password = "VictorH_3",
 					DateOfBirth = new DateOnly(2001, 1, 1),
-					BillingAdress = "Paris, France",
-					DeliveryAdress = "Paris, France",
+					BillingAddress = "Paris, France",
+					DeliveryAddress = "Paris, France",
 					IsAdmin = false
 				},
 				new User
@@ -58,8 +58,8 @@ namespace ClothingStoreWebAPI.Data
 					Email = "albert.camus@gmail.com",
 					Password = "AlbertC_4",
 					DateOfBirth = new DateOnly(2002, 1, 1),
-					BillingAdress = "Marseille, France",
-					DeliveryAdress = "Marseille, France",
+					BillingAddress = "Marseille, France",
+					DeliveryAddress = "Marseille, France",
 					IsAdmin = false
 				}
 			];

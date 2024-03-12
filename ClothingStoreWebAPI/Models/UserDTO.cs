@@ -10,9 +10,9 @@ namespace ClothingStoreWebAPI.Models
 		public string Email { get; set; } = string.Empty;
 		public string Password { get; set; } = string.Empty;
 		public DateOnly DateOfBirth { get; set; }
-		public string BillingAdress { get; set; } = string.Empty;
-		public string DeliveryAdress { get; set; } = string.Empty;
-		public bool IsAdmin { get; set; } = false;
+		public string BillingAddress { get; set; } = string.Empty;
+		public string DeliveryAddress { get; set; } = string.Empty;
+		public bool IsAdmin { get; set; }
 
 		public List<OrderDTO> Orders { get; set; } = [];
 	}

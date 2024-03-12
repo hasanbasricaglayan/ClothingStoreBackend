@@ -24,8 +24,8 @@ namespace ClothingStoreWebAPI.Mappers.UserMappers
 				Email = user.Email,
 				Password = user.Password,
 				DateOfBirth = user.DateOfBirth,
-				BillingAdress = user.BillingAdress,
-				DeliveryAdress = user.DeliveryAdress,
+				BillingAddress = user.BillingAddress,
+				DeliveryAddress = user.DeliveryAddress,
 				IsAdmin = user.IsAdmin
 			};
 
@@ -59,8 +59,8 @@ namespace ClothingStoreWebAPI.Mappers.UserMappers
 				Email = userDTO.Email,
 				Password = userDTO.Password,
 				DateOfBirth = userDTO.DateOfBirth,
-				BillingAdress = userDTO.BillingAdress,
-				DeliveryAdress = userDTO.DeliveryAdress,
+				BillingAddress = userDTO.BillingAddress,
+				DeliveryAddress = userDTO.DeliveryAddress,
 				IsAdmin = userDTO.IsAdmin
 			};
 
@@ -79,8 +79,8 @@ namespace ClothingStoreWebAPI.Mappers.UserMappers
 			user.Email = userDTO.Email;
 			user.Password = userDTO.Password;
 			user.DateOfBirth = userDTO.DateOfBirth;
-			user.BillingAdress = userDTO.BillingAdress;
-			user.DeliveryAdress = userDTO.DeliveryAdress;
+			user.BillingAddress = userDTO.BillingAddress;
+			user.DeliveryAddress = userDTO.DeliveryAddress;
 			user.IsAdmin = userDTO.IsAdmin;
 		}
 	}

@@ -45,7 +45,7 @@ namespace ClothingStoreWebAPI.Controllers
 				new Claim("sub", user.UserId.ToString()),
 				new Claim("firstname", user.FirstName),
 				new Claim("lastname", user.LastName),
-				new Claim("role", "admin"),
+				new Claim("admin", user.IsAdmin.ToString())
 			];
 
 			JwtSecurityToken jwtSecurityToken = new JwtSecurityToken(

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ClothingStoreWebAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class Update : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -38,8 +38,8 @@ namespace ClothingStoreWebAPI.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateOfBirth = table.Column<DateOnly>(type: "date", nullable: false),
-                    BillingAdress = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DeliveryAdress = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BillingAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DeliveryAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsAdmin = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -133,7 +133,7 @@ namespace ClothingStoreWebAPI.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "UserId", "BillingAdress", "DateOfBirth", "DeliveryAdress", "Email", "FirstName", "IsAdmin", "LastName", "Password", "PhoneNumber" },
+                columns: new[] { "UserId", "BillingAddress", "DateOfBirth", "DeliveryAddress", "Email", "FirstName", "IsAdmin", "LastName", "Password", "PhoneNumber" },
                 values: new object[,]
                 {
                     { 1, "Grenoble, France", new DateOnly(1999, 1, 1), "Grenoble, France", "mouhammad.nour@gmail.com", "Mouhammad", true, "Nour", "MouhammadN_1", "0606060601" },

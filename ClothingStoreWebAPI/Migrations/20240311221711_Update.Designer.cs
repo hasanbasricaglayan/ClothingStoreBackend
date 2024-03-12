@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClothingStoreWebAPI.Migrations
 {
     [DbContext(typeof(ClothingStoreContext))]
-    [Migration("20240307154941_initial")]
-    partial class initial
+    [Migration("20240311221711_Update")]
+    partial class Update
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -348,14 +348,14 @@ namespace ClothingStoreWebAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
-                    b.Property<string>("BillingAdress")
+                    b.Property<string>("BillingAddress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateOnly>("DateOfBirth")
                         .HasColumnType("date");
 
-                    b.Property<string>("DeliveryAdress")
+                    b.Property<string>("DeliveryAddress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -390,9 +390,9 @@ namespace ClothingStoreWebAPI.Migrations
                         new
                         {
                             UserId = 1,
-                            BillingAdress = "Grenoble, France",
+                            BillingAddress = "Grenoble, France",
                             DateOfBirth = new DateOnly(1999, 1, 1),
-                            DeliveryAdress = "Grenoble, France",
+                            DeliveryAddress = "Grenoble, France",
                             Email = "mouhammad.nour@gmail.com",
                             FirstName = "Mouhammad",
                             IsAdmin = true,
@@ -403,9 +403,9 @@ namespace ClothingStoreWebAPI.Migrations
                         new
                         {
                             UserId = 2,
-                            BillingAdress = "Clermont-Ferrand, France",
+                            BillingAddress = "Clermont-Ferrand, France",
                             DateOfBirth = new DateOnly(2000, 1, 1),
-                            DeliveryAdress = "Clermont-Ferrand, France",
+                            DeliveryAddress = "Clermont-Ferrand, France",
                             Email = "hasanbasri.caglayan@gmail.com",
                             FirstName = "Hasan-Basri",
                             IsAdmin = true,
@@ -416,9 +416,9 @@ namespace ClothingStoreWebAPI.Migrations
                         new
                         {
                             UserId = 3,
-                            BillingAdress = "Paris, France",
+                            BillingAddress = "Paris, France",
                             DateOfBirth = new DateOnly(2001, 1, 1),
-                            DeliveryAdress = "Paris, France",
+                            DeliveryAddress = "Paris, France",
                             Email = "victor.hugo@gmail.com",
                             FirstName = "Victor",
                             IsAdmin = false,
@@ -429,9 +429,9 @@ namespace ClothingStoreWebAPI.Migrations
                         new
                         {
                             UserId = 4,
-                            BillingAdress = "Marseille, France",
+                            BillingAddress = "Marseille, France",
                             DateOfBirth = new DateOnly(2002, 1, 1),
-                            DeliveryAdress = "Marseille, France",
+                            DeliveryAddress = "Marseille, France",
                             Email = "albert.camus@gmail.com",
                             FirstName = "Albert",
                             IsAdmin = false,
