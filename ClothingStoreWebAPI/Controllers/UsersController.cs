@@ -2,6 +2,7 @@ using ClothingStoreWebAPI.Entities;
 using ClothingStoreWebAPI.Mappers.UserMappers;
 using ClothingStoreWebAPI.Models;
 using ClothingStoreWebAPI.Services.UserRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClothingStoreWebAPI.Controllers
@@ -57,6 +58,7 @@ namespace ClothingStoreWebAPI.Controllers
 		}
 
 		// Edit user's data
+		[Authorize]
 		[HttpPut("{userId}")]
 		public async Task<ActionResult<User>> EditUserAsync(int userId, UserDTO userDTO)
 		{
@@ -65,7 +67,6 @@ namespace ClothingStoreWebAPI.Controllers
 			{
 				return NotFound();
 			}
-
 			_userMapper.UpdateUser(user, userDTO);
 
 			await _userRepository.SaveChangesAsync();

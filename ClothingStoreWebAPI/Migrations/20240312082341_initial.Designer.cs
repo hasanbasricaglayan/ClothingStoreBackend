@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClothingStoreWebAPI.Migrations
 {
     [DbContext(typeof(ClothingStoreContext))]
-    [Migration("20240307154941_initial")]
+    [Migration("20240312082341_initial")]
     partial class initial
     {
         /// <inheritdoc />
