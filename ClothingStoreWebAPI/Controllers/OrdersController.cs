@@ -46,18 +46,18 @@ namespace ClothingStoreWebAPI.Controllers
 		}
 
 		[HttpPost]
-		public async Task<ActionResult<Order>> AddOrderAsync(OrderDTO orderDTO)
+		public async Task<ActionResult<OrderDTO>> AddOrderAsync(OrderDTO orderDTO)
 		{
 			Order order = _orderMapper.OrderFromDTO(orderDTO);
 
 			await _orderRepository.AddOrderAsync(order);
 			await _orderRepository.SaveChangesAsync();
 
-			return Ok(order);
+			return Ok(orderDTO);
 		}
 
 		[HttpPut("{orderId}")]
-		public async Task<ActionResult<Order>> EditOrderAsync(int orderId, OrderDTO orderDTO)
+		public async Task<ActionResult<OrderDTO>> EditOrderAsync(int orderId, OrderDTO orderDTO)
 		{
 			Order? order = await _orderRepository.GetOrderByIdAsync(orderId);
 			if (order == null)
@@ -69,7 +69,7 @@ namespace ClothingStoreWebAPI.Controllers
 
 			await _orderRepository.SaveChangesAsync();
 
-			return Ok(order);
+			return Ok(orderDTO);
 		}
 
 		[HttpDelete("{orderId}")]

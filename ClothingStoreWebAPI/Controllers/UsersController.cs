@@ -60,7 +60,7 @@ namespace ClothingStoreWebAPI.Controllers
 		// Edit user's data
 		//[Authorize]
 		[HttpPut("{userId}")]
-		public async Task<ActionResult<User>> EditUserAsync(int userId, UserDTO userDTO)
+		public async Task<ActionResult<UserDTO>> EditUserAsync(int userId, UserDTO userDTO)
 		{
 			User? user = await _userRepository.GetUserByIdAsync(userId);
 			if (user == null)
@@ -71,7 +71,7 @@ namespace ClothingStoreWebAPI.Controllers
 
 			await _userRepository.SaveChangesAsync();
 
-			return Ok(user);
+			return Ok(userDTO);
 		}
 
 		// Delete user's account

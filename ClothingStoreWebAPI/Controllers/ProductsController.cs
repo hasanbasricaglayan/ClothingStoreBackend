@@ -58,18 +58,18 @@ namespace ClothingStoreWebAPI.Controllers
 		}
 
 		[HttpPost]
-		public async Task<ActionResult<Product>> AddProductAsync(ProductDTO productDTO)
+		public async Task<ActionResult<ProductDTO>> AddProductAsync(ProductDTO productDTO)
 		{
 			Product product = _productMapper.ProductFromDTO(productDTO);
 
 			await _productRepository.AddProductAsync(product);
 			await _productRepository.SaveChangesAsync();
 
-			return Ok(product);
+			return Ok(productDTO);
 		}
 
 		[HttpPut("{productId}")]
-		public async Task<ActionResult<Product>> EditProductAsync(int productId, ProductDTO productDTO)
+		public async Task<ActionResult<ProductDTO>> EditProductAsync(int productId, ProductDTO productDTO)
 		{
 			Product? product = await _productRepository.GetProductByIdAsync(productId);
 			if (product == null)
@@ -81,7 +81,7 @@ namespace ClothingStoreWebAPI.Controllers
 
 			await _productRepository.SaveChangesAsync();
 
-			return Ok(product);
+			return Ok(productDTO);
 		}
 
 		[HttpDelete("{productId}")]

@@ -25,7 +25,6 @@ namespace ClothingStoreWebAPI.Controllers
 			_configuration = configuration;
 			_context = context;
 			_userMapper = userMapper;
-
 		}
 
 		public class AuthenticationRequestBody

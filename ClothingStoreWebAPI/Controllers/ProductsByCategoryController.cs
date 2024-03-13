@@ -57,7 +57,7 @@ namespace ClothingStoreWebAPI.Controllers
 		}
 
 		[HttpPost]
-		public async Task<ActionResult<Product>> AddProductToCategoryAsync(int categoryId, ProductDTO productDTO)
+		public async Task<ActionResult<ProductDTO>> AddProductToCategoryAsync(int categoryId, ProductDTO productDTO)
 		{
 			Category? category = await _categoryRepository.GetCategoryByIdAsync(categoryId);
 			if (category == null)
@@ -70,11 +70,11 @@ namespace ClothingStoreWebAPI.Controllers
 			_productRepository.AddProductToCategory(category, product);
 			await _productRepository.SaveChangesAsync();
 
-			return Ok(product);
+			return Ok(productDTO);
 		}
 
 		[HttpPut("{productId}")]
-		public async Task<ActionResult<Product>> EditProductOfCategoryAsync(int categoryId, int productId, ProductDTO productDTO)
+		public async Task<ActionResult<ProductDTO>> EditProductOfCategoryAsync(int categoryId, int productId, ProductDTO productDTO)
 		{
 			Category? category = await _categoryRepository.GetCategoryByIdWithProductsAsync(categoryId);
 			if (category == null)
@@ -92,7 +92,7 @@ namespace ClothingStoreWebAPI.Controllers
 
 			await _productRepository.SaveChangesAsync();
 
-			return Ok(product);
+			return Ok(productDTO);
 		}
 
 		[HttpDelete("{productId}")]
