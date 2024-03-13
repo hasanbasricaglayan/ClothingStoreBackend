@@ -47,18 +47,18 @@ namespace ClothingStoreWebAPI.Controllers
 
 		// New user registration
 		[HttpPost]
-		public async Task<ActionResult<User>> AddUserAsync(UserDTO userDTO)
+		public async Task<ActionResult<UserDTO>> AddUserAsync(UserDTO userDTO)
 		{
 			User user = _userMapper.UserFromDTO(userDTO);
 
 			await _userRepository.AddUserAsync(user);
 			await _userRepository.SaveChangesAsync();
 
-			return Ok(user);
+			return Ok(userDTO);
 		}
 
 		// Edit user's data
-		[Authorize]
+		//[Authorize]
 		[HttpPut("{userId}")]
 		public async Task<ActionResult<User>> EditUserAsync(int userId, UserDTO userDTO)
 		{

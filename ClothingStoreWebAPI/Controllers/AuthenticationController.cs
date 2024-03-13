@@ -20,10 +20,11 @@ namespace ClothingStoreWebAPI.Controllers
 		private ClothingStoreContext _context;
 		private IUserMapper _userMapper;
 
-		public AuthenticationController(IConfiguration configuration, ClothingStoreContext context)
+		public AuthenticationController(IConfiguration configuration, ClothingStoreContext context, IUserMapper userMapper)
 		{
 			_configuration = configuration;
 			_context = context;
+			_userMapper = userMapper;
 
 		}
 
@@ -50,7 +51,7 @@ namespace ClothingStoreWebAPI.Controllers
 				new Claim("sub", user.UserId.ToString()),
 				new Claim("firstname", user.FirstName),
 				new Claim("lastname", user.LastName),
-				new Claim("emailAddress",user.Email),
+				new Claim("emailAddress", user.Email),
 				new Claim("admin", user.IsAdmin.ToString())
 			];
 
@@ -77,17 +78,23 @@ namespace ClothingStoreWebAPI.Controllers
 
 			return Ok(new { token = GenerateJwtToken(user) });
 		}
+
 		[Authorize]
 		[HttpGet("auth")]
-		public ActionResult<User> GetUserByToken()
+		public ActionResult<UserDTO> GetUserByToken()
 		{
-			//var userEmail =  token.Claims.FirstOrDefault(c => c.Type == "email")?.Value;
-			var userEmail = User.Claims.FirstOrDefault(u => u.Type == "emailAddress")?.Value;
+			string? userEmail = User.Claims.FirstOrDefault(u => u.Type == "emailAddress")?.Value;
 
 			User? user = _context.Users.FirstOrDefault(u => u.Email == userEmail);
-			Console.WriteLine(userEmail);
-			//UserDTO userDTO = _userMapper.UserToDTO(user);
-			return Ok(user);
+
+			if (user == null)
+			{
+				return NotFound();
+			}
+
+			UserDTO userDTO = _userMapper.UserToDTO(user);
+
+			return Ok(userDTO);
 		}
 	}
 }

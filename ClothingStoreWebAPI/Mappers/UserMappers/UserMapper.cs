@@ -52,7 +52,6 @@ namespace ClothingStoreWebAPI.Mappers.UserMappers
 		{
 			User user = new User
 			{
-				UserId = userDTO.UserId.GetValueOrDefault(),
 				FirstName = userDTO.FirstName,
 				LastName = userDTO.LastName,
 				PhoneNumber = userDTO.PhoneNumber,
