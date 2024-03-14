@@ -50,7 +50,6 @@ namespace ClothingStoreWebAPI.Controllers
 		public async Task<ActionResult<User>> AddUserAsync(UserDTO userDTO)
 		{
 			User user = _userMapper.UserFromDTO(userDTO);
-
 			await _userRepository.AddUserAsync(user);
 			await _userRepository.SaveChangesAsync();
 

@@ -44,14 +44,18 @@ namespace ClothingStoreWebAPI.Controllers
 		{
 			SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Convert.FromBase64String(_configuration["Authentication:SecretForKey"]!));
 			SigningCredentials signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
+			var role = "client";
+			if (user.IsAdmin)
+			{
+				role = "admin";
+			}
 			List<Claim> claimsForToken =
 			[
 				new Claim("sub", user.UserId.ToString()),
 				new Claim("firstname", user.FirstName),
 				new Claim("lastname", user.LastName),
 				new Claim("emailAddress",user.Email),
-				new Claim("role", "admin"),
+				new Claim("role", role),
 			];
 
 			JwtSecurityToken jwtSecurityToken = new JwtSecurityToken(
@@ -88,6 +92,22 @@ namespace ClothingStoreWebAPI.Controllers
 			Console.WriteLine(userEmail);
 			//UserDTO userDTO = _userMapper.UserToDTO(user);
 			return Ok(user);
+		}
+
+		[Authorize]
+		[HttpGet("role")]
+		public ActionResult<bool> GetRoleByToken()
+		{
+			//Console.WriteLine(User.ToString);
+			var role = User.Claims.FirstOrDefault(u => u.Type == "role" || u.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role")?.Value;
+			var isAdmin = false;
+			if (role == "admin")
+			{
+				isAdmin = true;
+			}
+			Console.WriteLine(isAdmin);
+			//UserDTO userDTO = _userMapper.UserToDTO(user);
+			return Ok(isAdmin);
 		}
 	}
 }
